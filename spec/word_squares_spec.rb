@@ -25,6 +25,11 @@ describe "WordSquares" do
       ws = WordSquares.new(TEST_FILE)
       expect(ws.generate(2)).to eq ['an', 'no']
     end
+    xit "returns a simple 3-word square" do
+      create_test_word_list(%w{axe bit and ice uno nod to ten doe no})
+      ws = WordSquares.new(TEST_FILE)
+      expect(ws.generate(3)).to eq %w{bit ice ten}
+    end
   end
   context "utility functions" do
     it "selects a word on a column" do

@@ -35,6 +35,7 @@ class WordSquares
         #puts "#{@square}, #{row}, #{@dimension-1}"
         break if column_check == true && @square.size == @dimension
       end
+      #return [] if column_check == false
     end
     @square
   end
