@@ -23,21 +23,29 @@ class WordSquares
     # If out of words for the nth row, backtrack to the n-1th row
     @square = []
     column_check = false
-    (0..@dimension-2).each do |row|
-      @word_list.each do |test_word|
-        @square[row] = test_word
-        @word_list.each do |word|
-          @square[row+1] = word
-          column_check = check_square_columns()
-          next if column_check == false
+    wlsize = word_list.size
+    wlptr = Array.new(@dimension,0)
+    wlpidx = row = 0 
+    todo = true
+    while todo
+      @square[row] = @word_list[wlptr[wlpidx]]
+      #puts "SS: #{@square}, #{row}, #{wlptr}[#{wlpidx}]"
+      column_check = check_square_columns
+      if column_check == false
+        wlptr[wlpidx] += 1
+        if wlptr[wlpidx] >= wlsize
+          @square.delete(row)
+          row -= 1
+          wlpidx = 0
         end
-        # If we get here...
-        #puts "#{@square}, #{row}, #{@dimension-1}"
-        break if column_check == true && @square.size == @dimension
+        return [] if row == -1
+        next
       end
-      #return [] if column_check == false
+      #TODO: Handle case where there is no solution!
+      row += 1
+      todo = false if column_check == true && @square.size == @dimension
     end
-    @square
+    return @square
   end
 
   def check_square_columns()
@@ -46,10 +54,9 @@ class WordSquares
     # If YES, continue for all columns
     # If NO, return false
     # Else when done return true
-    return true if @square.size == 1
+    #return true if @square.size == 1
     #puts "CSC: #{@square}"
     (0..@dimension-1).each do |column|
-      #puts "CSC: #{column}"
       word_stem = get_column_word(column)
       #puts "CSC: #{column}, #{word_stem}"
       return false if check_word_stem(word_stem) == false

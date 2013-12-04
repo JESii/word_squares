@@ -25,12 +25,20 @@ describe "WordSquares" do
       ws = WordSquares.new(TEST_FILE)
       expect(ws.generate(2)).to eq ['an', 'no']
     end
-    xit "returns a simple 3-word square" do
+    it "returns a simple 3-word square" do
       create_test_word_list(%w{axe bit and ice uno nod to ten doe no})
       ws = WordSquares.new(TEST_FILE)
       expect(ws.generate(3)).to eq %w{bit ice ten}
     end
+    it "handles case of no possible square" do
+      create_test_word_list( %w{an ax to do} )
+      ws = WordSquares.new(TEST_FILE)
+      expect(ws.generate(2)).to eql []
+    end
   end
+
+  ### These probably should be private methods and therefore shouldn't be spec'd
+  # However, it's easier for me to test the method directly...
   context "utility functions" do
     it "selects a word on a column" do
       create_test_word_list(%w{an no})
