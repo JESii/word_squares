@@ -20,8 +20,8 @@ describe "WordSquares" do
       ws = WordSquares.new(TEST_FILE)
       expect(ws.generate(2)).to eq ['an', 'no']
     end
-    xit "returns a 2-square with multiple invalid combinations" do
-      create_test_word_list(%w{ax az bz cz an dz xz nz no})
+    it "returns a 2-square with multiple invalid combinations" do
+      create_test_word_list(%w{ax an no})
       ws = WordSquares.new(TEST_FILE)
       expect(ws.generate(2)).to eq ['an', 'no']
     end
@@ -30,12 +30,27 @@ describe "WordSquares" do
     it "selects a word on a column" do
       create_test_word_list(%w{an no})
       ws = WordSquares.new(TEST_FILE)
-      ws.square = ['an', 'no']
+      ws.square = ['x1', '2z']
+      expect(ws.get_column_word(1)).to eql 'x2'
+      expect(ws.get_column_word(2)).to eql '1z'
+    end
+    it "rejects an invalid column word/word-stem" do
+      create_test_word_list(%w{an no})
+      ws = WordSquares.new(TEST_FILE)
+      ws.square = %w{ax no}
       expect(ws.get_column_word(1)).to eql 'an'
-      expect(ws.get_column_word(2)).to eql 'no'
+      expect(ws.get_column_word(2)).to eql 'xo'
     end
     it "checks a word/word-stem" do
       create_test_word_list(%w{an no})
+      ws = WordSquares.new(TEST_FILE)
+      wsr = WordSquaresReader.new(TEST_FILE)
+      ws.word_list = wsr.getwords(2)
+      expect(ws.check_word_stem('az')).to eql false 
+      expect(ws.check_word_stem('an')).to eql true
+    end
+    it "checks a word/word-stem with an invalid element" do
+      create_test_word_list(%w{axe and not goo})
       ws = WordSquares.new(TEST_FILE)
       wsr = WordSquaresReader.new(TEST_FILE)
       ws.word_list = wsr.getwords(2)
