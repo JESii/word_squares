@@ -5,7 +5,7 @@ Thoughtbot coding challenge: given a dictionary of some kind, generate
 [word squares]( http://en.wikipedia.org/wiki/Word_square "Wikipedia word square") of size n.
 
 ##Running the program
-There's a word\_squares program in the root directory that will generate word squares from 2 through 6 (warning a 6-square takes a LONG time)
+There's a word\_squares program in the root directory that will generate word squares from 2 through 6 (warning a 6-square takes a LONG time). There's also a one\_word\_square program that will generate a single word sqpare when given a size.
 
 If you wish to run the program yourself, this will do the trick, in an executable file:
 
@@ -25,8 +25,10 @@ For example, for a 2-square (word square of size 2), given a dictionary containi
 
 ##Possible Improvements
 1. One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.
+    This was implemented in commit ????. As a result, the (correct) 5-square now takes 56 seconds to generate instead of 205.
 
 ##Bugs
+### At commit 7ed35e8a36
 The un-memoized algorithm generated the following 5-square (which is also a perfect word square with the same words horizontally and vertically):
 
     a a l i i
@@ -43,3 +45,5 @@ whereas the memoized algorithm generated the following:
     a i r a n
     m e a n t
     
+### Fixed at a subsequent commit including the alpha lookup
+The memoized and alphabetized algorithm now generates the expected perfect square

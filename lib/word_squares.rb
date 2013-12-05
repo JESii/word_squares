@@ -12,6 +12,7 @@ class WordSquares
     wsr = WordSquaresReader.new(@filename)
     return [] if @dimension == 1
     @word_stem_memo ||= []
+    @alpha_word_list ||= {}
     @word_list = wsr.getwords(@dimension)
     puts "#{@word_list.size} #{@dimension}-letter word list"
     select_square
@@ -42,6 +43,7 @@ class WordSquares
           row -= 1
           wlpidx -= 1
           wlptr[wlpidx] += 1
+          @square[row] = @word_list[wlptr[wlpidx]]
           printf "\r\033[0KSS-backtrack: #{@square}, #{row}, #{wlptr}[#{wlpidx}]"
         end
         return [] if row == -1
@@ -86,7 +88,9 @@ class WordSquares
 
   def check_word_stem(word_stem)
     size = word_stem.size
-    @word_list.each do |word|
+    word_stem_leader = word_stem[0]
+    @alpha_word_list[word_stem_leader] ||= @word_list.grep(/^#{word_stem_leader}/)
+    @alpha_word_list[word_stem_leader].each do |word|
       #puts "CWS: #{size}, #{word_stem}, #{word[0,size]}"
       return true if word_stem == word[0,size]
     end
