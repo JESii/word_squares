@@ -59,15 +59,16 @@ describe "WordSquares" do
       expect(ws.get_column_word(1)).to eql 'an'
       expect(ws.get_column_word(2)).to eql 'xo'
     end
-    it "checks a word/word-stem" do
+    xit "checks a word/word-stem" do
       create_test_word_list(%w{an no})
       ws = WordSquares.new(TEST_FILE)
+      ws.instance_variable_set(:@alpha_word_list, '{}')
       wsr = WordSquaresReader.new(TEST_FILE)
       ws.word_list = wsr.getwords(2)
       expect(ws.check_word_stem('az')).to eql false 
       expect(ws.check_word_stem('an')).to eql true
     end
-    it "checks a word/word-stem with an invalid element" do
+    xit "checks a word/word-stem with an invalid element" do
       create_test_word_list(%w{axe and not goo})
       ws = WordSquares.new(TEST_FILE)
       wsr = WordSquaresReader.new(TEST_FILE)
