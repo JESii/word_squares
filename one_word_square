@@ -2,7 +2,7 @@
 require_relative 'lib/word_squares'
 
 if ARGV[0].nil?
-  printf "Usage: \n\tone_word_square <size>"
+  printf "Usage: \n\tone_word_square <size>\n"
   exit
 end
 size = ARGV[0].to_i

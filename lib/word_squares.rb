@@ -5,6 +5,7 @@ class WordSquares
 
   def initialize(filename)
     @filename = filename
+    @start_time = Time.now
   end
 
   def generate(dimension)
@@ -44,7 +45,7 @@ class WordSquares
           wlpidx -= 1
           wlptr[wlpidx] += 1
           @square[row] = @word_list[wlptr[wlpidx]]
-          printf "\r\033[0KSS-backtrack: #{@square}, #{row}, #{wlptr}[#{wlpidx}]"
+          printf "\r\033[0KSS-backtrack: #{@square}, #{row}, #{wlptr}[#{wlpidx}] (#{(Time.now - @start_time).to_i} seconds)"
         end
         return [] if row == -1
         next
