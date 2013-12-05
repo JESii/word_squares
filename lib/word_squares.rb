@@ -10,8 +10,8 @@ class WordSquares
   def generate(dimension)
     @dimension = dimension
     wsr = WordSquaresReader.new(@filename)
-    puts "#{@filename.size} words in total list"
     return [] if @dimension == 1
+    @word_stem_memo ||= []
     @word_list = wsr.getwords(@dimension)
     puts "#{@word_list.size} #{@dimension}-letter word list"
     select_square
@@ -41,10 +41,13 @@ class WordSquares
           @square.delete_at(row)
           row -= 1
           wlpidx -= 1
+          wlptr[wlpidx] += 1
+          printf "\r\033[0KSS-backtrack: #{@square}, #{row}, #{wlptr}[#{wlpidx}]"
         end
         return [] if row == -1
         next
       end
+      #TODO: Remove this code; was used during testing
       if @square.include?(nil)
         puts <<EOF
 nil in @square (#{@square})
@@ -69,17 +72,13 @@ EOF
     # Else when done return true
     #puts "CSC: #{@square}"
     (0..@dimension-1).each do |column|
-      begin
-        word_stem = get_column_word(column)
-      rescue 
-        puts <<EOF
-Exception in get_column_word:
-square =  #{@square}
-column = #{column}
-EOF
+      word_stem = get_column_word(column)
+      return false if @word_stem_memo.include?(word_stem)
+      word_stem_match = check_word_stem(word_stem) 
+      if word_stem_match == false
+        @word_stem_memo << word_stem
+        return false
       end
-      #puts "CSC: #{column}, #{word_stem}"
-      return false if check_word_stem(word_stem) == false
     end
     true
   end
