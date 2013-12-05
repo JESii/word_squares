@@ -1,0 +1,4 @@
+wordsquares
+===========
+
+Generate word squares
