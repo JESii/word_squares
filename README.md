@@ -26,6 +26,7 @@ For example, for a 2-square (word square of size 2), given a dictionary containi
 ##Possible Improvements
 1. One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.<br />
     This was implemented in commit e7f187e. As a result, the (correct) 5-square now takes 56 seconds to generate instead of 205. The 6-square generation is still unacceptably slow.
+1. Memoized all word-stems at commit 66d5e10, not just the first letter in the word. 6-square visibly faster (but still slow).
 
 ##Bugs
 
