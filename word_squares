@@ -16,8 +16,14 @@ def time_generation(dimension)
 
 
 puts "Generating word squares 2-6..."
+puts Time.now.strftime("%c")
 time_generation(2)
+puts Time.now.strftime("%c")
 time_generation(3)
+puts Time.now.strftime("%c")
 time_generation(4)
+puts Time.now.strftime("%c")
 time_generation(5)
+puts Time.now.strftime("%c")
 time_generation(6)
+puts Time.now.strftime("%c")

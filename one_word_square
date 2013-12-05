@@ -21,4 +21,6 @@ def time_generation(dimension)
   end
 
 puts "Generating word square of size #{size}"
+puts Time.now.strftime("%c")
 time_generation(size)
+puts Time.now.strftime("%c")

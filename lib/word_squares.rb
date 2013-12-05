@@ -89,9 +89,8 @@ class WordSquares
 
   def check_word_stem(word_stem)
     size = word_stem.size
-    word_stem_leader = word_stem[0]
-    @alpha_word_list[word_stem_leader] ||= @word_list.grep(/^#{word_stem_leader}/)
-    @alpha_word_list[word_stem_leader].each do |word|
+    @alpha_word_list[word_stem] ||= @word_list.grep(/^#{word_stem}/)
+    @alpha_word_list[word_stem].each do |word|
       #puts "CWS: #{size}, #{word_stem}, #{word[0,size]}"
       return true if word_stem == word[0,size]
     end
