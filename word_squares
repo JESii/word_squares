@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+require_relative 'lib/word_squares'
+
+@ws = WordSquares.new('word_list')
+@word_square = []
+
+def time_generation(dimension)
+  puts "Generating #{dimension}-square"
+  start = Time.now
+@word_square = @ws.generate(dimension)
+  stop = Time.now
+  puts "This word square:"
+  puts @word_square
+  puts "took #{stop - start} seconds to generate"
+  end
+
+  time_generation(2)
+  time_generation(3)
+  time_generation(4)
+  time_generation(5)
+time_generation(6)
+
+  puts "Generating 2-square"
+  start = Time.now
+word_square = ws.generate(2)
+  stop = Time.now
+  puts "This word square:"
+  puts word_square
+  puts "took #{stop - start} seconds to generate"

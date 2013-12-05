@@ -35,6 +35,11 @@ describe "WordSquares" do
       ws = WordSquares.new(TEST_FILE)
       expect(ws.generate(2)).to eql []
     end
+    it "handles a back-tracking situation" do
+      create_test_word_list( %w{non ada ono} )
+      ws = WordSquares.new(TEST_FILE)
+      expect(ws.generate(3)).to eql %w{non ono non}
+    end
   end
 
   ### These probably should be private methods and therefore shouldn't be spec'd
