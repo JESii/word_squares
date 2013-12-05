@@ -44,10 +44,10 @@ class WordSquares
           row -= 1
           wlpidx -= 1
           wlptr[wlpidx] += 1
-          @square[row] = @word_list[wlptr[wlpidx]]
           printf "\r\033[0KSS-backtrack: #{@square}, #{row}, #{wlptr}[#{wlpidx}] (#{(Time.now - @start_time).to_i} seconds)"
         end
         return [] if row == -1
+        @square[row] = @word_list[wlptr[wlpidx]]
         next
       end
       row += 1
