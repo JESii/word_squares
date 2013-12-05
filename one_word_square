@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+require_relative 'lib/word_squares'
+
+if ARGV[0].nil?
+  printf "Usage: \n\tone_word_square <size>"
+  exit
+end
+size = ARGV[0].to_i
+
+@ws = WordSquares.new('word_list')
+@word_square = []
+
+def time_generation(dimension)
+  puts "Generating #{dimension}-square"
+  start = Time.now
+@word_square = @ws.generate(dimension)
+  stop = Time.now
+  puts "This word square:"
+  puts @word_square
+  puts "took #{stop - start} seconds to generate"
+  end
+
+puts "Generating word square of size #{size}"
+time_generation(size)
