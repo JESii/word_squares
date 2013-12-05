@@ -4,6 +4,17 @@
 <p>Thoughtbot coding challenge: given a dictionary of some kind, generate 
 <a href="http://en.wikipedia.org/wiki/Word_square" title="Wikipedia word square">word squares</a> of size n.</p>
 
+<h2 id="running-the-program">Running the program</h2>
+<p>There&rsquo;s a word_squares program in the root directory that will generate word squares from 2 through 6 (warning a 6-square takes a LONG time)</p>
+
+<p>If you wish to run the program yourself, this will do the trick, in an executable file:</p>
+
+<pre><code>#!/usr/bin/env ruby
+require_relative 'lib/word_squares'
+@ws = WordSquares.new(\&lt;word_list&gt;)    # There's a word list called... wait for it: word_list
+@word_square = @ws.generate(\&lt;dimension&gt;)
+</code></pre>
+
 <h2 id="approach">Approach</h2>
 <p>After some consideration, I decided to use the approach of filling the word square one word(row) at a time and testing to see if that word or (partial) combination of letters (a &lsquo;word-stem&rsquo;) is a valid possibility by checking the existing columns to see if there were a possible word match.</p>
 
