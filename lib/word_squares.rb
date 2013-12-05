@@ -47,16 +47,6 @@ class WordSquares
         return [] if row == -1
         next
       end
-      #TODO: Remove this code; was used during testing
-      if @square.include?(nil)
-        puts <<EOF
-nil in @square (#{@square})
-row = #{row}
-wlpidx = #{wlpidx}
-wlptr = #{wlptr}
-EOF
-      end
-      #TODO: Handle case where there is no solution!
       row += 1
       wlpidx += 1
       todo = false if column_check == true && @square.size == @dimension

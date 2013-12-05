@@ -14,16 +14,10 @@ def time_generation(dimension)
   puts "took #{stop - start} seconds to generate"
   end
 
-  time_generation(2)
-  time_generation(3)
-  time_generation(4)
-  time_generation(5)
-time_generation(6)
 
-  puts "Generating 2-square"
-  start = Time.now
-word_square = ws.generate(2)
-  stop = Time.now
-  puts "This word square:"
-  puts word_square
-  puts "took #{stop - start} seconds to generate"
+puts "Generating word squares 2-6..."
+time_generation(2)
+time_generation(3)
+time_generation(4)
+time_generation(5)
+time_generation(6)
