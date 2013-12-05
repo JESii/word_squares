@@ -1,0 +1,41 @@
+<h1 id="wordsquares">wordsquares</h1>
+
+<h2 id="description">Description</h2>
+<p>Thoughtbot coding challenge: given a dictionary of some kind, generate 
+<a href="http://en.wikipedia.org/wiki/Word_square" title="Wikipedia word square">word squares</a> of size n.</p>
+
+<h2 id="approach">Approach</h2>
+<p>After some consideration, I decided to use the approach of filling the word square one word(row) at a time and testing to see if that word or (partial) combination of letters (a &lsquo;word-stem&rsquo;) is a valid possibility by checking the existing columns to see if there were a possible word match.</p>
+
+<p>For example, for a 2-square (word square of size 2), given a dictionary containing the words &lsquo;av&rsquo;, &lsquo;an&rsquo;, &lsquo;no&rsquo;, we can determine that the word &lsquo;av&rsquo; in the first row is invalid because there is no 2-letter word starting with &lsquo;v&rsquo;. Therefore, we don&rsquo;t have to test any of words in line 2 and can skip to try the next word in row 1.</p>
+
+<h2 id="results">Results</h2>
+<ol>
+  <li>First attempt simply used the basic approach with no optimization and generated a 5-square in 5650 seconds. The 6-square was still running (overnight) at 8 hours when I terminated it :=)</li>
+  <li>Adding memoization of the known &lsquo;bad&rsquo; word-stems improved the 5-square generation to 205 seconds.</li>
+</ol>
+
+<h2 id="possible-improvements">Possible Improvements</h2>
+<ol>
+  <li>One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.</li>
+</ol>
+
+<h2 id="bugs">Bugs</h2>
+<p>The un-memoized algorithm generated the following 5-square (which is also a perfect word square with the same words horizontally and vertically):</p>
+
+<pre><code>a a l i i
+a b o r d
+l o b a l
+i r a d e
+i d l e r
+</code></pre>
+
+<p>whereas the memoized algorithm generated the following:</p>
+
+<pre><code>a a l i i
+b e a r d
+e r b i a
+a i r a n
+m e a n t
+</code></pre>
+
