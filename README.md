@@ -24,10 +24,11 @@ For example, for a 2-square (word square of size 2), given a dictionary containi
 1. Adding memoization of the known 'bad' word-stems improved the 5-square generation to 205 seconds.
 
 ##Possible Improvements
-1. One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.
-    This was implemented in commit ????. As a result, the (correct) 5-square now takes 56 seconds to generate instead of 205.
+1. One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.<br />
+    This was implemented in commit e7f187e. As a result, the (correct) 5-square now takes 56 seconds to generate instead of 205. The 6-square generation is still unacceptably slow.
 
 ##Bugs
+
 ### At commit 7ed35e8a36
 The un-memoized algorithm generated the following 5-square (which is also a perfect word square with the same words horizontally and vertically):
 
@@ -45,5 +46,5 @@ whereas the memoized algorithm generated the following:
     a i r a n
     m e a n t
     
-### Fixed at a subsequent commit including the alpha lookup
+### Fixed at commit e7f187e which implemented the alpha lookup
 The memoized and alphabetized algorithm now generates the expected perfect square

@@ -5,7 +5,7 @@
 <a href="http://en.wikipedia.org/wiki/Word_square" title="Wikipedia word square">word squares</a> of size n.</p>
 
 <h2 id="running-the-program">Running the program</h2>
-<p>There&rsquo;s a word_squares program in the root directory that will generate word squares from 2 through 6 (warning a 6-square takes a LONG time)</p>
+<p>There&rsquo;s a word_squares program in the root directory that will generate word squares from 2 through 6 (warning a 6-square takes a LONG time). There&rsquo;s also a one_word_square program that will generate a single word sqpare when given a size.</p>
 
 <p>If you wish to run the program yourself, this will do the trick, in an executable file:</p>
 
@@ -28,10 +28,13 @@ require_relative 'lib/word_squares'
 
 <h2 id="possible-improvements">Possible Improvements</h2>
 <ol>
-  <li>One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.</li>
+  <li>One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.<br />
+ This was implemented in commit e7f187e. As a result, the (correct) 5-square now takes 56 seconds to generate instead of 205. The 6-square generation is still unacceptably slow.</li>
 </ol>
 
 <h2 id="bugs">Bugs</h2>
+
+<h3 id="at-commit-7ed35e8a36">At commit 7ed35e8a36</h3>
 <p>The un-memoized algorithm generated the following 5-square (which is also a perfect word square with the same words horizontally and vertically):</p>
 
 <pre><code>a a l i i
@@ -50,3 +53,5 @@ a i r a n
 m e a n t
 </code></pre>
 
+<h3 id="fixed-at-commit-e7f187e-which-implemented-the-alpha-lookup">Fixed at commit e7f187e which implemented the alpha lookup</h3>
+<p>The memoized and alphabetized algorithm now generates the expected perfect square</p>
