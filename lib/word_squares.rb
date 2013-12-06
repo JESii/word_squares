@@ -12,7 +12,7 @@ class WordSquares
     @dimension = dimension
     wsr = WordSquaresReader.new(@filename)
     return [] if @dimension == 1
-    @word_stem_memo ||= []
+    @word_stem_memo = []
     @alpha_word_list ||= {}
     @word_list = wsr.getwords(@dimension)
     puts "#{@word_list.size} #{@dimension}-letter word list"
@@ -42,12 +42,12 @@ class WordSquares
           wlptr[wlpidx] = 0
           @square.delete_at(row)
           row -= 1
+          return [] if row == -1
           wlpidx -= 1
           wlptr[wlpidx] += 1
+          @square[row] = @word_list[wlptr[wlpidx]]
           printf "\r\033[0KSS-backtrack: #{@square}, #{row}, #{wlptr}[#{wlpidx}] (#{(Time.now - @start_time).to_i} seconds)"
         end
-        return [] if row == -1
-        @square[row] = @word_list[wlptr[wlpidx]]
         next
       end
       row += 1
