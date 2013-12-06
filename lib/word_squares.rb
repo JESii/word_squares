@@ -66,10 +66,10 @@ class WordSquares
     #puts "CSC: #{@square}"
     (0..@dimension-1).each do |column|
       word_stem = get_column_word(column)
-      return false if @word_stem_memo.include?(word_stem)
+      #return false if @word_stem_memo.include?(word_stem)
       word_stem_match = check_word_stem(word_stem) 
       if word_stem_match == false
-        @word_stem_memo << word_stem
+        #@word_stem_memo << word_stem
         return false
       end
     end
