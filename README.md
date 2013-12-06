@@ -22,13 +22,16 @@ For example, for a 2-square (word square of size 2), given a dictionary containi
 ##Results
 1. First attempt simply used the basic approach with no optimization and generated a 5-square in 5650 seconds. The 6-square was still running (overnight) at 8 hours when I terminated it :=)
 1. Adding memoization of the known 'bad' word-stems improved the 5-square generation to 205 seconds.
+1. Additional enhancements yielded a 6-square generated in a little over 6 minutes.
 
-##Possible Improvements
+##Possible Improvements (implemented)
 1. One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.<br />
     This was implemented in commit e7f187e. As a result, the (correct) 5-square now takes 56 seconds to generate instead of 205. The 6-square generation is still unacceptably slow.
 1. Memoized all word-stems at commit 66d5e10, not just the first letter in the word. 6-square visibly faster (but still slow).
+1. Removed initial memoization from commit e7f187e, leaving only memoization at commit 6635e10 (in new commit ee35085).<br/>
+    This improved the 6-square generation from 6 hours to 6 minutes!
 
-##Bugs
+##Bugs (resolved)
 
 ### At commit 7ed35e8a36
 The un-memoized algorithm generated the following 5-square (which is also a perfect word square with the same words horizontally and vertically):

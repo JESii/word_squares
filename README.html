@@ -1,11 +1,13 @@
-<h1 id="wordsquares">wordsquares</h1>
+<h1>wordsquares</h1>
 
-<h2 id="description">Description</h2>
+<h2>Description</h2>
+
 <p>Thoughtbot coding challenge: given a dictionary of some kind, generate 
 <a href="http://en.wikipedia.org/wiki/Word_square" title="Wikipedia word square">word squares</a> of size n.</p>
 
-<h2 id="running-the-program">Running the program</h2>
-<p>There&rsquo;s a word_squares program in the root directory that will generate word squares from 2 through 6 (warning a 6-square takes a LONG time). There&rsquo;s also a one_word_square program that will generate a single word sqpare when given a size.</p>
+<h2>Running the program</h2>
+
+<p>There's a word_squares program in the root directory that will generate word squares from 2 through 6 (warning a 6-square takes a LONG time). There's also a one_word_square program that will generate a single word sqpare when given a size.</p>
 
 <p>If you wish to run the program yourself, this will do the trick, in an executable file:</p>
 
@@ -15,27 +17,34 @@ require_relative 'lib/word_squares'
 @word_square = @ws.generate(\&lt;dimension&gt;)
 </code></pre>
 
-<h2 id="approach">Approach</h2>
-<p>After some consideration, I decided to use the approach of filling the word square one word(row) at a time and testing to see if that word or (partial) combination of letters (a &lsquo;word-stem&rsquo;) is a valid possibility by checking the existing columns to see if there were a possible word match.</p>
+<h2>Approach</h2>
 
-<p>For example, for a 2-square (word square of size 2), given a dictionary containing the words &lsquo;av&rsquo;, &lsquo;an&rsquo;, &lsquo;no&rsquo;, we can determine that the word &lsquo;av&rsquo; in the first row is invalid because there is no 2-letter word starting with &lsquo;v&rsquo;. Therefore, we don&rsquo;t have to test any of words in line 2 and can skip to try the next word in row 1.</p>
+<p>After some consideration, I decided to use the approach of filling the word square one word(row) at a time and testing to see if that word or (partial) combination of letters (a 'word-stem') is a valid possibility by checking the existing columns to see if there were a possible word match.</p>
 
-<h2 id="results">Results</h2>
+<p>For example, for a 2-square (word square of size 2), given a dictionary containing the words 'av', 'an', 'no', we can determine that the word 'av' in the first row is invalid because there is no 2-letter word starting with 'v'. Therefore, we don't have to test any of words in line 2 and can skip to try the next word in row 1.</p>
+
+<h2>Results</h2>
+
 <ol>
-  <li>First attempt simply used the basic approach with no optimization and generated a 5-square in 5650 seconds. The 6-square was still running (overnight) at 8 hours when I terminated it :=)</li>
-  <li>Adding memoization of the known &lsquo;bad&rsquo; word-stems improved the 5-square generation to 205 seconds.</li>
+<li>First attempt simply used the basic approach with no optimization and generated a 5-square in 5650 seconds. The 6-square was still running (overnight) at 8 hours when I terminated it :=)</li>
+<li>Adding memoization of the known 'bad' word-stems improved the 5-square generation to 205 seconds.</li>
+<li>Additional enhancements yielded a 6-square generated in a little over 6 minutes.</li>
 </ol>
 
-<h2 id="possible-improvements">Possible Improvements</h2>
+<h2>Possible Improvements (implemented)</h2>
+
 <ol>
-  <li>One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.<br />
- This was implemented in commit e7f187e. As a result, the (correct) 5-square now takes 56 seconds to generate instead of 205. The 6-square generation is still unacceptably slow.</li>
-  <li>Memoized all word-stems at commit 66d5e10, not just the first letter in the word. 6-square visibly faster (but still slow).</li>
+<li>One obvious performance gain can be had by limiting the word-stem search to words that start with the given word-stem; right now it searches all words in the list.<br />
+This was implemented in commit e7f187e. As a result, the (correct) 5-square now takes 56 seconds to generate instead of 205. The 6-square generation is still unacceptably slow.</li>
+<li>Memoized all word-stems at commit 66d5e10, not just the first letter in the word. 6-square visibly faster (but still slow).</li>
+<li>Removed initial memoization from commit e7f187e, leaving only memoization at commit 6635e10 (in new commit ee35085).<br/>
+This improved the 6-square generation from 6 hours to 6 minutes!</li>
 </ol>
 
-<h2 id="bugs">Bugs</h2>
+<h2>Bugs (resolved)</h2>
 
-<h3 id="at-commit-7ed35e8a36">At commit 7ed35e8a36</h3>
+<h3>At commit 7ed35e8a36</h3>
+
 <p>The un-memoized algorithm generated the following 5-square (which is also a perfect word square with the same words horizontally and vertically):</p>
 
 <pre><code>a a l i i
@@ -54,5 +63,6 @@ a i r a n
 m e a n t
 </code></pre>
 
-<h3 id="fixed-at-commit-e7f187e-which-implemented-the-alpha-lookup">Fixed at commit e7f187e which implemented the alpha lookup</h3>
+<h3>Fixed at commit e7f187e which implemented the alpha lookup</h3>
+
 <p>The memoized and alphabetized algorithm now generates the expected perfect square</p>
