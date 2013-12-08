@@ -63,4 +63,10 @@ describe Square do
     s[1] = 'an'
     expect(s.to_s).to eq %q{["an", "  "]}
   end
+  it "raises exception for row < 1" do
+    s = Square.new(2)
+    expect{
+      s[0] = 'an'
+    }.to raise_error
+  end
 end

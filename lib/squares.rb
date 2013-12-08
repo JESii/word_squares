@@ -18,6 +18,7 @@ class Square
   end
 
   def set_row(row,value)
+    raise "Row less than one: #{row}" if row < 1
     @square[row-1] = value
   end
   alias :[]= :set_row
