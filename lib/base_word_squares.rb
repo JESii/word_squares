@@ -16,6 +16,7 @@ class BaseWordSquares
     # if NO, get the next word for the nth row
     # If out of words for the nth row, backtrack to the n-1th row
     # If we have backtracked to the -1th row, there's no solution
+    @start_time = Time.now
     @square = Square.new(@dimension)
     column_check = false
     wlsize = @word_list.size
@@ -36,7 +37,7 @@ class BaseWordSquares
           wlpidx -= 1
           wlptr[wlpidx] += 1
           @square[row] = @word_list[wlptr[wlpidx]]
-          printf "\r\033[0KSS-backtrack: #{@square}, #{row}, #{wlptr}[#{wlpidx}] (#{(Time.now - @start_time).to_i} seconds)"
+          printf "\r\033[0KSS-backtrack: #{@square.to_s}, #{row}, #{wlptr}[#{wlpidx}] (#{(Time.now - @start_time).to_i} seconds)"
         end
         next
       end
