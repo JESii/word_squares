@@ -13,6 +13,10 @@ class Square
     @dimension
   end
 
+  def to_s
+    @square.inspect
+  end
+
   def set_row(row,value)
     @square[row-1] = value
   end

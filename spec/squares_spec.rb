@@ -58,4 +58,9 @@ describe Square do
     s[2] = 'no'
     expect(s.complete?).to be_true
   end
+  it "can display itself with to_s" do
+    s = Square.new(2)
+    s[1] = 'an'
+    expect(s.to_s).to eq %q{["an", "  "]}
+  end
 end
