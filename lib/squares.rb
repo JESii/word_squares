@@ -1,4 +1,6 @@
 class Square
+#TODO: Implement better default representation of Square"
+
   def initialize(dimension)
     @dimension = dimension
     @rows = @cols = @dimension -1
