@@ -16,8 +16,8 @@ class WordSquares
     @word_stem_memo = []
     @alpha_word_list ||= {}
     @word_list = wsr.getwords(@dimension)
-    #puts "#{@word_list.size} #{@dimension}-letter word list"
     ws = strategy.new(@dimension, @word_list)
     word_square =  ws.select_square
+    word_square.to_s
   end
 end

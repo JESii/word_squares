@@ -1,3 +1,5 @@
+require_relative 'squares'
+
 class BaseWordSquares
 
   def initialize(dimension,word_list)
@@ -14,23 +16,23 @@ class BaseWordSquares
     # if NO, get the next word for the nth row
     # If out of words for the nth row, backtrack to the n-1th row
     # If we have backtracked to the -1th row, there's no solution
-    @square = []
+    @square = Square.new(@dimension)
     column_check = false
     wlsize = @word_list.size
     wlptr = Array.new(@dimension,0)
-    wlpidx = row = 0 
+    wlpidx =  0 
+    row = 1
     todo = true
     while todo
       @square[row] = @word_list[wlptr[wlpidx]]
-      #puts "SS: #{@square}, #{row}, #{wlptr}[#{wlpidx}]"
       column_check = check_square_columns
       if column_check == false
         wlptr[wlpidx] += 1
         if wlptr[wlpidx] >= wlsize
           wlptr[wlpidx] = 0
-          @square.delete_at(row)
+          @square.delete_row(row)
           row -= 1
-          return [] if row == -1
+          return [] if row == 0
           wlpidx -= 1
           wlptr[wlpidx] += 1
           @square[row] = @word_list[wlptr[wlpidx]]
@@ -40,8 +42,9 @@ class BaseWordSquares
       end
       row += 1
       wlpidx += 1
-      todo = false if column_check == true && @square.size == @dimension
+      todo = false if column_check == true && @square.complete?
     end
+    puts "BWS: #{@square.class}, #{@square}"
     return @square
   end
 
@@ -53,7 +56,7 @@ class BaseWordSquares
     # Else when done return true
     #puts "CSC: #{@square}"
     (0..@dimension-1).each do |column|
-      word_stem = get_column_word(column)
+      word_stem = @square.col(column)
       #return false if @word_stem_memo.include?(word_stem)
       word_stem_match = check_word_stem(word_stem) 
       if word_stem_match == false
@@ -64,16 +67,16 @@ class BaseWordSquares
     true
   end
 
-  def get_column_word(column)
-    size = @square.size
-    column_word = ""
-    (0..size-1).each do |row|
-      column_word << @square[row][column-1]
-      #puts "CS: #{column_word}, #{row}, #{@square[row]}"
-    end
-    #puts "CS: #{column_word}"
-    column_word
-  end
+#  def get_column_word(column)
+#    return  @square.col(column)
+#    column_word = ""
+#    (0..@dimension-1).each do |row|
+#      column_word << @square[row][column-1]
+#      #puts "CS: #{column_word}, #{row}, #{@square[row]}"
+#    end
+#    #puts "CS: #{column_word}"
+#    column_word
+#  end
 
   def check_word_stem(word_stem)
     size = word_stem.size

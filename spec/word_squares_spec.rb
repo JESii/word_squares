@@ -13,32 +13,32 @@ describe "WordSquares" do
     it "returns a simple 2-square with only two words" do
       create_test_word_list(%w{an no})
       ws = WordSquares.new(TEST_FILE)
-      expect(ws.generate(2)).to eq ['an','no']
+      expect(ws.generate(2)).to eq ['an','no'].to_s
     end
     it "returns a simple 2-square when three words" do
       create_test_word_list(%w{an ax no})
       ws = WordSquares.new(TEST_FILE)
-      expect(ws.generate(2)).to eq ['an', 'no']
+      expect(ws.generate(2)).to eq ['an', 'no'].to_s
     end
     it "returns a 2-square with multiple invalid combinations" do
       create_test_word_list(%w{ax an no})
       ws = WordSquares.new(TEST_FILE)
-      expect(ws.generate(2)).to eq ['an', 'no']
+      expect(ws.generate(2)).to eq ['an', 'no'].to_s
     end
     it "returns a simple 3-word square" do
       create_test_word_list(%w{axe bit and ice uno nod to ten doe no})
       ws = WordSquares.new(TEST_FILE)
-      expect(ws.generate(3)).to eq %w{bit ice ten}
+      expect(ws.generate(3)).to eq %w{bit ice ten}.to_s
     end
     it "handles case of no possible square" do
       create_test_word_list( %w{an ax to do} )
       ws = WordSquares.new(TEST_FILE)
-      expect(ws.generate(2)).to eql []
+      expect(ws.generate(2)).to eql [].to_s
     end
     it "handles a back-tracking situation" do
       create_test_word_list( %w{non ada ono} )
       ws = WordSquares.new(TEST_FILE)
-      expect(ws.generate(3)).to eql %w{non ono non}
+      expect(ws.generate(3)).to eql %w{non ono non}.to_s
     end
   end
 
