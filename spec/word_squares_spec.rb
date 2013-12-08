@@ -59,14 +59,14 @@ describe "WordSquares" do
   ### These probably should be private methods and therefore shouldn't be spec'd
   # However, it's easier for me to test the method directly...
   context "utility functions" do
-    it "selects a word on a column" do
+    xit "selects a word on a column" do
       create_test_word_list(%w{an no})
       ws = WordSquares.new(TEST_FILE)
       ws.square = ['x1', '2z']
       expect(ws.get_column_word(1)).to eql 'x2'
       expect(ws.get_column_word(2)).to eql '1z'
     end
-    it "rejects an invalid column word/word-stem" do
+    xit "rejects an invalid column word/word-stem" do
       create_test_word_list(%w{an no})
       ws = WordSquares.new(TEST_FILE)
       ws.square = %w{ax no}
