@@ -30,6 +30,9 @@ class Square
     end
     col_word.rstrip
   end
+  def delete_row(row)
+    @square[row-1] = " " * @dimension
+  end
   def pivot_on_point(point)
     pt = point -1
     (point..@rows).each do |r|

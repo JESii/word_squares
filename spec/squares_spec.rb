@@ -18,6 +18,14 @@ describe Square do
     expect(s.get_row(1)).to eq 'an'
     expect(s[2]).to eq 'no'
   end
+  it "deletes a word row" do
+    s = Square.new(2)
+    s[1] = 'an'
+    s[2] = 'xy'
+    expect(s.col(2)).to eq 'ny'
+    s.delete_row(2)
+    expect(s.col(2)).to eq 'n'
+  end
   it "returns a column" do
     s = Square.new(2)
     s[1] = 'an'
