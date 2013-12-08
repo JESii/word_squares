@@ -30,6 +30,9 @@ class Square
     end
     col_word.rstrip
   end
+  def complete?
+    !@square.join('').include? ' '
+  end
   def delete_row(row)
     @square[row-1] = " " * @dimension
   end

@@ -49,4 +49,13 @@ describe Square do
     expect(s.col(2)).to eq 'b'
     expect(s.col(3)).to eq 'c'
   end
+  it "knows when a square is complete" do
+    s = Square.new(2)
+    s[1] = 'an'
+    expect(s.complete?).to be_false
+    s.pivot_on_point(1)
+    expect(s.complete?).to be_false
+    s[2] = 'no'
+    expect(s.complete?).to be_true
+  end
 end
