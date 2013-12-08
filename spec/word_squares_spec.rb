@@ -42,6 +42,20 @@ describe "WordSquares" do
     end
   end
 
+  context "alternate strategy" do
+    pending "Not ready for alternate strategy yet"
+    xit "1-square returns empty" do
+      create_test_word_list( %w{an ab c} )
+      ws = WordSquares.new TEST_FILE
+      expect(ws.generate(1, 'alt-ps')).to eql []
+    end
+    xit "returns a simple 2-square with only two words" do
+      create_test_word_list(%w{an no})
+      ws = WordSquares.new(TEST_FILE)
+      expect(ws.generate(2,'alt-ps')).to eq ['an','no']
+    end
+  end
+
   ### These probably should be private methods and therefore shouldn't be spec'd
   # However, it's easier for me to test the method directly...
   context "utility functions" do
