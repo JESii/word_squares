@@ -19,8 +19,8 @@ describe "WordSquaresReader" do
     expect(wsr.getwords(2)).to eql ['as', 'am', 'no', 'me']
   end
   it "loads two-letter words only" do
-    create_test_word_list(%w{abc i as am mix no me a})
+    create_test_word_list(%w{abc i as am mix no me a xx})
     wsr = WordSquaresReader.new(TEST_FILE)
-    wsr.getwords(2).should =~ ['as', 'am', 'no', 'me']
+    wsr.getwords(2).should =~ ['as', 'am', 'no', 'me', 'xx']
   end
 end
