@@ -45,8 +45,18 @@ describe Square do
     s.pivot_on_point(1)
     expect(s.col(1)).to eq 'abc'
     s.clear_on_pivot(1)
-    expect(s.col(1)).to eq 'a'
-    expect(s.col(2)).to eq 'b'
+    expect(s.col(1)).to eq ''
+    expect(s.col(2)).to eq ''
+    expect(s.col(3)).to eq ''
+  end
+  it "clears on internal row pivot [bug]" do
+    s = Square.new(3)
+    s[1] = 'abc'
+    s.pivot_on_point(1)
+    s[2] = 'bee'
+    s.pivot_on_point(2)
+    expect(s.col(3)).to eq 'ce'
+    s.clear_on_pivot(2)
     expect(s.col(3)).to eq 'c'
   end
   it "knows when a square is complete" do

@@ -51,9 +51,9 @@ class Square
   end
   def clear_on_pivot(point)
     pt = point - 1
-    (point..@rows).each do |r|
-      (point..@cols).each do |c|
-        @square[r][pt] = ' '
+    (pt..@rows).each do |r|
+      (pt..@cols).each do |c|
+        @square[r][c] = ' '
       end
     end
   end
