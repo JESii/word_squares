@@ -1,98 +1,141 @@
 require_relative 'word_squares_reader'
 require_relative 'base_word_squares'
+require_relative 'squares'
+
+WlElement = Struct.new(:wlist, :wsize, :windex)
 
 class PivotWordSquares
 
   def initialize(dimension, word_list)
     @dimension = dimension
     @word_list = word_list
+    @wlsize = @word_list.size
     @alpha_word_list ||= {}
     @word_stem_memo = []
+    @start_time = Time.now
+  end 
+
+  def create_wordlist_pointer
+    @wlptr = Array.new(@dimension+1)     # Don't use zero element
+    (1..@dimension).each do |i|
+      @wlptr[i] = WlElement.new()
+    end
+  end
+  def initialize_wordlist_pointer_row(row)
+    @wlptr[row].wlist = @word_list
+    @wlptr[row].wsize = @word_list.size
+    @wlptr[row].windex = 0
   end
 
   def select_square
-    @square = []
-    wlsize = @word_list.size
-    wlptr = Array.new(@dimension,0)
-    wlpidx = row = 0
-    todo = true
-    while todo
-      puts "SS-altps: #{row}, #{wlptr}[#{wlpidx}]"
-      ### Must limit this to 'allowable' values
-      # If it's the first row, then anything goes
-      # Otherwise, it must 'match' what's already in the row
-      @square[row] = get_next_valid_word(row,wlptr,wlpidx)
-      check_row_column = check_row_column(row)
-      puts "SS_altps: #{@square}, #{check_row_column}"
-      if check_row_column == false
-        wlptr[wlpidx] += 1
-        if wlptr[wlpidx] >= wlsize
-          wlptr[wlpidx] = 0
-          delete_row_column(row)
-          row -= 1
-          return [] if row == -1
-          wlpidx -= 1
-          wlptr[wlpidx] += 1
-          @square[row] = @word_list[wlptr[wlpidx]]
-          printf "\r\033[0KSS-backtrack: #{@square}, #{row}, #{wlptr}[#{wlpidx}] (#{(Time.now - @start_time).to_i} seconds)"
-        end
-        next
+    @square = Square.new(@dimension)
+    create_wordlist_pointer
+    initialize_wordlist_pointer_row(1)
+    ### Process all words for row 1 until found or exhausted
+    (0..@wlsize-1).each do |wx|
+      done = false
+      while not done
+        ### Using row(1) word, see if there's a square to be found
+        break
       end
-      row += 1
-      wlpidx += 1
-      todo = false if check_square_filled? == true && check_row_column == true
+      puts "#{@word_list[wx]}"
     end
+    %w{an no}.to_s
+  end
+
+  def select_square_SAVE
+    @square = Square.new(@dimension)
+    wlptr = Array.new(@dimension+1)     # Don't use zero element
+    (1..@dimension).each do |i|
+      wlptr[i] = WlElement.new()
+    end
+    wlptr[1].wlist = @word_list
+    wlptr[1].wsize = @word_list.size
+    wlptr[1].windex = 0
+    (0..@wlsize-1).each do |wx|
+      row = 1
+      word = @word_list[wx]
+      @square[row] = @word_list[wx]
+      #puts "wx: #{wx}, #{@square}"
+      @square.pivot_on_point(row)
+      check_square_columns = check_square_columns(row)
+      next if check_square_columns == false
+      (2..@dimension).each do |i|
+        wlptr[i].wlist = get_alpha_word_list(word[i-1])
+        wlptr[i].wsize = wlptr[i].wlist.size
+        wlptr[i].windex = 0
+      end
+      #puts "wlptr: #{wlptr.inspect}"
+      todo = true
+      row = 2
+      while todo
+        if row == 4
+          puts "\nerror: #{row}, #{@square}, #{wlptr[row]}"
+          exit
+        end
+        begin
+          @square[row] = wlptr[row].wlist[wlptr[row].windex]
+          printf "\rSS(1)      : #{row}, #{@square}\033[0K"
+        rescue
+          puts "\nerror: #{row}, #{wlptr[row]}"
+          exit
+        end
+        #puts "todo: #{row}, #{wlptr[row].wlist[0..3]}, #{@square.to_s}, #{row}"
+        @square.pivot_on_point(row)
+        check_square_columns = check_square_columns(row)
+        printf "\n\rSS         : #{row}, #{@square}, #{check_square_columns}"
+        break if @square.complete? && check_square_columns == true
+        if check_square_columns == false
+          wlptr[row].windex += 1
+          #puts "SS1: #{wlptr[row].wlist[wlptr[row].windex]}"
+          if wlptr[row].windex < wlptr[row].wsize
+            @square[row] = wlptr[row].wlist[wlptr[row].windex]
+            @square.pivot_on_point(row)
+            next
+          else
+            @square.clear_on_pivot(row)
+            wlptr[row].windex = 0
+            row -= 1
+            break if row == 1     # exits from while
+            #@square[row] = wlptr[row].wlist[wlptr[row].windex]
+            puts "\rSS-pivot : #{row}, #{@square}"
+            printf "\r\033[0KSS-backtrack: #{row}, #{@square} (#{(Time.now - @start_time).to_i} seconds)"
+          end #/ if wlptr[row].windex < wlptr[row].wsize
+          printf "\rSS(2)      : #{row}, #{@square}"
+          next
+        else
+          row += 1
+        end #/ if check_square_columns == false
+        todo = false if @square.complete? && check_square_columns == true
+      end #/ while todo
+      puts "\n>wend: #{row}, #{@square}; #{@square.complete?}"
+      break if @square.complete?
+    end #/ (0..@wlsize).each do |wx|
     return @square
   end
-  def get_next_valid_word(row,wlptr,wlpidx)
+  def get_next_valid_word(row,wlptr)
     done = false
     while not done
       ### ??? wlptr/wlpidx will change here...
+      raise "NotImplemented - get_next_valid_word()"
     end
-  end
-  def check_square_filled?
-    (0..@dimension-1).each do |r|
-      return false if @square[r].size != @dimension
-    end
-    true
   end
 
-  def check_row_column(row)
-    # Propagate row to corresponding column
-    # Check columns (rows) to see if valid
-    propagate_row_column(row)
-    return check_square_columns_altps(row)
-  end
-  def check_square_columns_altps(row)
+  def check_square_columns(row)
     # Select each new row 'word' or partial word (word-stem)
     # Check to see if there is a word that could match that word
     # If YES, continue for all rows
     # If NO, return false
     # Else when done return true
-    puts "CSC_altps: #{@square}"
-    (row+1..@dimension-1).each do |r|
-      word_stem = @square[r]
-      word_stem_match = check_word_stem(word_stem) 
-      if word_stem_match == false
-        return false
-      end
+    #puts "CSC: #{@square}"
+    (row..@dimension).each do |r|
+      return false if check_word_stem(@square.col(r)) == false
     end
+    #puts "CSC-true: #{@square}, #{@square}, #{row}"
     true
   end
-  def propagate_row_column(row)
-    (row+1..@dimension-1).each do |c|
-      puts "PRC: row: #{row}, r: #{row}, c: #{c}"
-      @square[c] ||= ''
-      @square[c] << @square[row][c]
-    end
-  end
-  def delete_row_column(row)
-    (row..@dimension-1).each do |r|
-      @square[r] = @square[r][0,r-1]
-    end
-  end
 
-  def check_square_columns()
+  def check_square_columns_SAVE()
     # Select each column 'word' or partial word (word-stem)
     # Check to see if there is a word that could match that word
     # If YES, continue for all columns
@@ -100,7 +143,7 @@ class PivotWordSquares
     # Else when done return true
     #puts "CSC: #{@square}"
     (0..@dimension-1).each do |column|
-      word_stem = get_column_word(column)
+      word_stem = @square.col(column)
       #return false if @word_stem_memo.include?(word_stem)
       word_stem_match = check_word_stem(word_stem) 
       if word_stem_match == false
@@ -111,20 +154,9 @@ class PivotWordSquares
     true
   end
 
-  def get_column_word(column)
-    size = @square.size
-    column_word = ""
-    (0..size-1).each do |row|
-      column_word << @square[row][column-1]
-      #puts "CS: #{column_word}, #{row}, #{@square[row]}"
-    end
-    #puts "CS: #{column_word}"
-    column_word
-  end
-
   def check_word_stem(word_stem)
     size = word_stem.size
-    @alpha_word_list[word_stem] ||= @word_list.grep(/^#{word_stem}/)
+    get_alpha_word_list(word_stem)
     #puts "CWS: #{word_stem}, #{@alpha_word_list}"
     @alpha_word_list[word_stem].each do |word|
       #puts "CWS: #{size}, #{word_stem}, #{word[0,size]}"
@@ -132,4 +164,8 @@ class PivotWordSquares
     end
     false
   end
+  def get_alpha_word_list(word_stem)
+    @alpha_word_list[word_stem] ||= @word_list.grep(/^#{word_stem}/)
+  end
+
 end

@@ -45,7 +45,7 @@ class BaseWordSquares
       wlpidx += 1
       todo = false if column_check == true && @square.complete?
     end
-    puts "BWS: #{@square.class}, #{@square}"
+    #puts "BWS: #{@square.class}, #{@square}"
     return @square
   end
 
