@@ -29,16 +29,36 @@ class PivotWordSquares
 
   def select_square
     @square = Square.new(@dimension)
+    puts "#{@square}"
     create_wordlist_pointer
     initialize_wordlist_pointer_row(1)
     ### Process all words for row 1 until found or exhausted
     (0..@wlsize-1).each do |wx|
-      done = false
-      while not done
-        ### Using row(1) word, see if there's a square to be found
-        break
+      @square[1] = word = @word_list[wx]
+      puts "#{@square}"
+      @square.pivot_on_point(1)
+      (2..@dimension).each do |i|
+        @wlptr[i].wlist = get_alpha_word_list(word[i-1])
+        @wlptr[i].wsize = @wlptr[i].wlist.size
+        @wlptr[i].windex = 0
       end
-      puts "#{@word_list[wx]}"
+      row = 2
+      done = false
+
+      while not done
+        break if row == 1
+        if @wlptr[row].windex >= @wlptr[row].wsize
+          row -= 1
+          next
+        end
+        @square[row] = @wlptr[row].wlist[@wlptr[row].windex]
+        puts "in while: #{@square}/ #{@word_list[wx]}; #{@wlptr}"
+        
+        @wlptr[row].windex += 1
+        ### Using row(1) word, see if there's a square to be found
+      end
+
+      puts "#{@word_list[wx]}; #{@wlptr}"
     end
     %w{an no}.to_s
   end
