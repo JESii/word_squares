@@ -39,23 +39,19 @@ describe "WordSquares" do
         expect(ws.generate(2,strategy)).to eql [].to_s
       end
       it "handles a back-tracking situation" do
-        create_test_word_list( %w{non ada ono} )
+        create_test_word_list( %w{ada axe axx non ono} )
         ws = WordSquares.new(TEST_FILE)
         expect(ws.generate(3,strategy)).to eql %w{non ono non}.to_s
       end
-    end
-
-    context "alternate strategy" do
-      pending "Not ready for alternate strategy yet"
-      xit "1-square returns empty" do
-        create_test_word_list( %w{an ab c} )
-        ws = WordSquares.new TEST_FILE
-        expect(ws.generate(1, 'alt-ps')).to eql []
-      end
-      xit "returns a simple 2-square with only two words" do
-        create_test_word_list(%w{an no})
+      it "handles a simple 5-square" do
+        create_test_word_list( %w{aalii abord lobal irade idler} )
         ws = WordSquares.new(TEST_FILE)
-        expect(ws.generate(2,'alt-ps')).to eq ['an','no']
+        expect(ws.generate(5,strategy)).to eq %w{aalii abord lobal irade idler}.to_s
+      end
+      it "handles a more complex 5-square" do
+        create_test_word_list( %w{broad blink large links issue agile alist aalii abord lobal irade idler} )
+        ws = WordSquares.new(TEST_FILE)
+        expect(ws.generate(5,strategy)).to eq %w{aalii abord lobal irade idler}.to_s
       end
     end
 
