@@ -68,17 +68,6 @@ class BaseWordSquares
     true
   end
 
-#  def get_column_word(column)
-#    return  @square.col(column)
-#    column_word = ""
-#    (0..@dimension-1).each do |row|
-#      column_word << @square[row][column-1]
-#      #puts "CS: #{column_word}, #{row}, #{@square[row]}"
-#    end
-#    #puts "CS: #{column_word}"
-#    column_word
-#  end
-
   def check_word_stem(word_stem)
     size = word_stem.size
     @alpha_word_list[word_stem] ||= @word_list.grep(/^#{word_stem}/)
