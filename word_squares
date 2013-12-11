@@ -3,11 +3,12 @@ require_relative 'lib/word_squares'
 
 @ws = WordSquares.new('word_list')
 @word_square = []
+@strategy = ARGV[0]
 
 def time_generation(dimension)
   puts "Generating #{dimension}-square"
   start = Time.now
-@word_square = @ws.generate(dimension)
+@word_square = @ws.generate(dimension,@strategy)
   stop = Time.now
   puts "This word square:"
   puts @word_square
@@ -15,7 +16,8 @@ def time_generation(dimension)
   end
 
 
-puts "Generating word squares 2-6..."
+@strategy_name = @strategy.nil? ? 'default' : @strategy
+puts "Generating word squares 2-6, using strategy = #{@strategy_name}..."
 puts Time.now.strftime("%c")
 time_generation(2)
 puts Time.now.strftime("%c")

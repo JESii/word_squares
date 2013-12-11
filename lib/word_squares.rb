@@ -1,6 +1,7 @@
 require_relative 'word_squares_reader'
 require_relative 'base_word_squares'
 require_relative 'pivot_word_squares'
+require_relative 'naive_word_squares'
 
 class WordSquares
   attr_accessor :square, :word_list
@@ -32,6 +33,8 @@ class WordSquares
     when strategy == BaseWordSquares
       strategy
     when strategy == PivotWordSquares
+      strategy
+    when strategy == NaiveWordSquares
       strategy
     else
       raise "Invalid strategy option: #{strategy}"

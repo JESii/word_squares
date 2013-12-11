@@ -3,10 +3,11 @@ require 'spec_helper'
 require_relative '../lib/word_squares'
 require_relative '../lib/base_word_squares'
 require_relative '../lib/pivot_word_squares'
+require_relative '../lib/naive_word_squares'
 
 puts '===============WordSquares==================='
 describe "WordSquares" do
-  [BaseWordSquares, PivotWordSquares].each do |strategy|
+  [BaseWordSquares, PivotWordSquares, NaiveWordSquares].each do |strategy|
     context "[#{strategy}]" do
       it "returns an empty array for a 1-square" do
         create_test_word_list(%w{a i})
