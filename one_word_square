@@ -16,7 +16,6 @@ strategy = ARGV[1]
 def time_generation(dimension,strategy)
   puts "Generating #{dimension}-square with strategy #{strategy}"
   start = Time.now
-  strategy = Kernel.const_get(strategy)
 @word_square = @ws.generate(dimension,strategy)
   stop = Time.now
   puts "This word square:"
