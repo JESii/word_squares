@@ -1,4 +1,4 @@
-#wordsquares
+# wordsquares
 
 ## Description
 Thoughtbot coding challenge: given a dictionary of some kind, generate 
